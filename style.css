@@ -1,0 +1,501 @@
+@page {
+  size: A4;
+  margin: 20mm;
+}
+
+img {
+  max-width: 100%;
+}
+
+#invoice img {
+  page-break-inside: avoid;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  padding: 40px;
+}
+
+
+#invoice {
+  width: 794px;
+  max-width: 794px;
+  min-height: 1120px;         /* INCREASED from 1050px */
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  background-color: #fcfaf2;
+}
+
+.invoice-content {
+  padding-top: 40px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+
+
+#step-preview {
+  display: none;
+  width: 100%;
+  padding: 20px 0;
+  min-height: 100vh;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+
+#step-preview.active {
+  display: block;
+}
+
+
+
+.invoice-table,
+.header,
+.bottom-row,
+.terms,
+.footer-contact {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+#productDisplay,
+#gradeDisplay {
+  text-transform: uppercase;
+}
+
+/* Hide all steps by default */
+.step {
+  display: none;
+}
+
+.step.active {
+  display: block;
+}
+
+
+.issued {
+  margin-top: 0px;          
+  font-size: 13px;           
+}
+
+/* Label “ISSUED TO” */
+.issued .label {
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  color: #2F3643;  /* slightly lighter than content */
+}
+
+
+/* Client Name */
+.issued #clientName {
+  font-weight: 300;  /* medium weight */
+  font-size: 13px;
+  color: #60605F;       /* dark for emphasis */
+  margin-bottom: 2px;
+}
+
+/* Client Address */
+.issued #clientAddress {
+  font-weight: 300;  /* normal weight */
+  font-size: 13px;
+  color: #60605F;       /* lighter than name */
+  margin-bottom: 2px;
+}
+
+.issued #clientPhone {
+  font-weight: bold;  /* stands out */
+  font-size: 13px;
+  color: #2F3643;
+  margin-bottom: 0;
+}
+
+.header-row-top{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 40px; /* space between rows */
+}
+
+.header-row-bottom{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px; /* space between rows */
+}
+
+.left {
+  max-width: 50%;  /* left column width */
+}
+
+.right {
+  max-width: 50%;  /* right column width */
+  text-align: left; /* for invoice title row, adjust if needed */
+}
+
+/* Change invoice title color */
+.right h1 {
+  color: #002E1F; /* example: green */
+}
+
+/* Change RC and TIN color */
+.right .rc,
+.right .tin {
+  color: #002E1F; /* example: dark gray */
+  font-weight: bold;
+}
+
+
+.logo {
+  width: 200px;
+  height: auto;
+  margin: 0;
+}
+
+
+
+.issued p,
+.details p,
+.rc,
+.tin {
+  margin: 2px 0;
+  line-height: 1.3;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+
+
+.divider {
+  border: none;
+  border-top: 1px solid #575655;  /* solid black line */
+  margin: 24px 0;              /* space above and below the line */
+  width: 100%;
+}
+
+
+.meta {
+  margin: 0;
+  padding: 0;
+}
+.title h1 {
+  font-size: 28px;
+  letter-spacing: 2px;
+}
+
+.company {
+  max-width: 60%;
+}
+
+.title {
+  text-align: left;       /* keep title + RC/TIN on the left */
+}
+
+.right h1 {
+  font-size: 46px;
+  margin: 0 0 2px 0;       /* small gap below headline */
+  font-weight: 900;
+}
+
+.invoice-meta p {
+  font-size: 12px;          /* smaller than title */
+  margin: 2px 0;            /* space between RC and TIN */
+  line-height: 1.2;
+  font-weight: 900;
+}
+
+.header-row-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;  /* makes left and right columns same height */
+  gap: 20px;
+}
+
+.header-row-bottom .right .details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  /* top + bottom spacing */
+  height: 100%;                     /* fill the parent column height */
+}
+
+.header-row-bottom .right .row.column {
+  display: flex;
+  flex-direction: column;  /* stack date + payment vertically */
+  gap: 2px;
+}
+
+.header-row-bottom .left .issued {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+}
+
+.header-row-bottom .right .details p {
+  font-size: 13px;          /* increase font size */
+  text-transform: uppercase; /* make text all caps */
+  font-weight: 300;          /* optional: medium weight for emphasis */
+  color: #60605F;
+  margin: 2px 0;             /* maintain spacing */
+}
+
+
+.details {
+  text-align: left;        /* keeps it on the right side */
+  font-size: 14px;
+  margin-top: 0px;         /* space below header or logo */
+}
+
+.details p {
+  margin: 2px 0;            /* tight vertical spacing */
+  line-height: 1.3;
+}
+
+
+.company-name {
+  font-size: 12px;
+  font-weight: bold;
+  margin: 6px 0 2px;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0;
+}
+
+.label {
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.invoice-table {
+  width: 100%;
+  border-collapse: separate;
+  margin-top: 20px;
+  border-spacing: 0 16px;
+  font-size: 12px;
+}
+
+.invoice-table th {
+  background-color: #383D42;  /* light gray fill */
+  color: #fff;
+  padding: 8px;
+  text-align: left;
+  /* border-bottom: 1px solid #ccc;  optional bottom border */
+}
+
+.invoice-table td {
+  padding: 8px;
+  background-color: #F1F0E9;      /* white background for body cells */
+  /* border-bottom: 1px solid #eee;   row separation */
+}
+
+.invoice-table tbody tr:nth-child(even) td,
+.invoice-table tbody tr:nth-child(odd) td {
+  background-color: #F1F0E9;      /* all body rows same color */
+}
+
+.totals {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.totals p {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.bank {
+  margin-top: 30px;
+  font-size: 12px;
+}
+
+/* Paragraph styling only (not title) */
+.terms p:not(.terms-title) {
+  color: #888786; /* paragraph color */
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.terms-title {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: #3D3D3D; /* new text color */
+}
+
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 20px; /* spacing from table above */
+}
+
+.bottom-row .left,
+.bottom-row .right {
+  flex: 1;
+  max-width: 48%; /* keeps some gap between columns */
+}
+
+.totals p,
+.bank p {
+  margin: 4px 0; /* reduce spacing between lines */
+}
+
+.bank {
+  font-size: 12px;            /* small but readable */
+  line-height: 1.4;           /* spacing between lines */
+  color: #888786;                 /* dark gray text */
+  margin-top: 20px;            /* space from table or totals */
+}
+
+.totals {
+  font-size: 12px;       /* readable size */
+  line-height: 1.4;
+  text-align: right;     /* right-align the totals */
+  margin-top: 10px;      /* space from previous content */
+  color: #494948;
+}
+
+.totals p {
+  margin: 4px 0;         /* spacing between lines */
+}
+
+.totals p span {
+  font-weight: bold;
+  color: #494948;  /* same color for all amounts */
+}
+
+.totals .grand span {
+  font-size: 12px;  /* same size as others */
+  color: #494948;   /* override any previous accent color */
+}
+
+
+.form-section {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.form-section h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.footer-contact {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  font-size: 10px;
+  color: #555;
+}
+
+.footer-contact p {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+/* remove margin for icons inside squares */
+.icon-square {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 6px;
+}
+
+/* Individual colors */
+.icon-square.phone { background-color: #347154; }
+.icon-square.email { background-color: #91B15E; }
+.icon-square.address { background-color: #002E1F; }
+
+/* Icon inside the square */
+.icon-square i {
+  color: #fff;
+  font-size: 12px;
+  margin: 0; /* ensure no extra spacing */
+  line-height: 1;
+}
+
+
+.footer-decorative {
+  position: absolute;         /* CHANGED from relative to absolute */
+  bottom: 0;                  /* Anchor to bottom */
+  left: 0;                    /* Align to left edge */
+  width: 100%;                /* Full width */
+  height: 120px;
+  margin: 0;                  /* Remove all margins */
+  overflow: hidden;
+}
+
+
+.footer-decorative img {
+  position: absolute;
+  object-fit: contain;
+}
+
+
+/* Green shapes */
+.footer-decorative .shape-1 {
+  top: 0;
+  left: 0;                    /* CHANGED from 20px */
+  width: 25%;
+  height: 80%;
+  z-index: 3;
+}
+
+.footer-decorative .shape-2 {
+  top: 0;
+  left: 10%;                  /* CHANGED - removed +20px */
+  width: 25%;
+  height: 80%;
+  z-index: 2;
+}
+
+.footer-decorative .shape-3 {
+  top: 0;
+  left: 20%;                  /* CHANGED - removed +20px */
+  width: 25%;
+  height: 80%;
+  z-index: 1;
+}
+
+/* Rectangle - full width */
+.footer-decorative .shape-4 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  background-color: #3D4452;
+  z-index: 5;
+}
+
+
+/* Add visual spacing for empty rows */
+.invoice-table tbody tr:empty {
+  height: 40px;
+  background-color: #F1F0E9;
+}
+
+/* Or add a class for placeholder rows */
+.invoice-table tbody tr.placeholder-row td {
+  height: 40px;
+  background-color: #F1F0E9;
+  border: none;
+}

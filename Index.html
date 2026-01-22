@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hillsville Farms Invoice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-y...YOUR_HASH_HERE..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-gray-50">
+
+  <!-- Client Info + Invoice Items -->
+  <div id="step-client" class="step active min-h-screen flex items-center justify-center bg-gray-50 p-4">
+    <form id="invoiceForm" class="bg-white w-full max-w-4xl p-8 rounded-xl shadow-lg space-y-8">
+      <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">Create Invoice</h2>
+
+      <!-- Client Info -->
+      <div class="space-y-3 sm:space-y-4">
+        <h3 class="text-lg font-semibold text-gray-700 border-b pb-1">Client Information</h3>
+        <input type="text" placeholder="Client Name" id="clientNameInput" required
+          class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+        <input type="text" placeholder="Client Address" id="clientAddressInput" required
+          class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+        <input type="text" placeholder="Client Phone" id="clientPhoneInput" required
+          class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+      </div>
+
+      <!-- Invoice Items Section (stacked vertically) -->
+      <div class="space-y-3 sm:space-y-4">
+        <h3 class="text-lg font-semibold text-gray-700 border-b pb-1">Invoice Item</h3>
+
+        <div class="space-y-2 sm:space-y-3">
+          <!-- ADD INVOICE NUMBER INPUT HERE -->
+          <input type="text" id="invoiceNumberInput" placeholder="Invoice Number (e.g., 0001)" required
+          class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+
+          <input type="text" id="productInput" placeholder="Product name" required
+            class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+
+          <input type="text" id="gradeInput" placeholder="Grade" required
+            class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+
+          <input type="number" id="unitPriceInput" placeholder="Unit Price" required
+            class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+
+          <input type="number" id="quantityInput" placeholder="Quantity" required
+            class="w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-green-400 focus:outline-none" />
+
+          <input type="number" id="taxInput" value="0" placeholder="Tax"
+            class="w-1/4 border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-green-400 focus:outline-none mt-2" />
+
+          <button type="button" id="addItemBtn"
+            class="bg-green-500 text-white font-semibold rounded-md px-4 py-2 w-full hover:bg-green-600 transition">Add Item</button>
+        </div>
+      </div>
+
+      <!-- Items Preview Table -->
+      <div class="overflow-x-auto mt-4 -mx-4 sm:mx-0">
+        <div class="inline-block min-w-full align-middle">
+          <table class="min-w-full border border-gray-200 rounded-md text-xs sm:text-sm">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border px-2 sm:px-4 py-2 text-left whitespace-nowrap">PRODUCT</th>
+                <th class="border px-2 sm:px-4 py-2 text-left whitespace-nowrap">GRADE</th>
+                <th class="border px-2 sm:px-4 py-2 text-left whitespace-nowrap">UNIT PRICE</th>
+                <th class="border px-2 sm:px-4 py-2 text-left whitespace-nowrap">QTY/KG</th>
+                <th class="border px-2 sm:px-4 py-2 text-left whitespace-nowrap">AMOUNT</th>
+              </tr>
+            </thead>
+            <tbody id="itemsPreviewTable" class="bg-white"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-0 sm:justify-between mt-6">
+        <button type="button" id="backToClientBtn"
+          class="bg-gray-300 text-gray-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-400 transition">Back</button>
+
+        <button type="button" id="toPreviewBtn"
+          class="bg-green-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-green-600 transition">PreviewInvoice</button>
+      </div>
+    </form>
+  </div>
+
+
+
+  <!-- PDF VIEW -->
+  <div id="step-preview" class="step">
+    <!-- Invoice container: ONLY content for PDF -->
+    <div id="invoice">
+      <div class="invoice-content">
+        <!-- HEADER -->
+        <div class="header">
+          <!-- Row 1 -->
+          <div class="header-row-top">
+            <div class="left">
+            <img src="assets/Logo.png" alt="Hillsville Farms Logo" class="logo" />
+            </div>
+            <div class="right">
+              <h1>INVOICE</h1>
+              <p class="rc">RC: 7019572</p>
+              <p class="tin">TIN: 2523040135971</p>
+            </div>
+          </div>
+    
+          <!-- Row 2 -->
+          <div class="header-row-bottom">
+            <div class="left">
+              <div class="issued">
+                <p class="label">ISSUED TO</p>
+                <p id="clientName">John Doe</p>
+                <p id="clientAddress">123 Farm Road, Lagos, Nigeria</p>
+                <p id="clientPhone">+234 901 234 5678</p>
+              </div>
+            </div>
+            <div class="right">
+              <div class="details">
+                <div class="row">
+                  <p>Invoice No: <span id="invoiceNo">0001</span></p>
+                </div>
+                <div class="row column">
+                  <p>Invoice Date: <span id="invoiceDate">30/12/2025</span></p>
+                  <p>Payment Due: <span id="dueDate">09/01/2026</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <hr class="divider">
+    
+        <!-- TABLE -->
+        <table class="invoice-table" id="invoiceTable">
+          <thead>
+            <tr>
+              <th>PRODUCT</th>
+              <th>GRADE</th>
+              <th>UNIT PRICE</th>
+              <th>QTY/KG</th>
+              <th>AMOUNT</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+    
+        <div class="bottom-row">
+          <div class="left">
+            <div class="bank">
+              <p>BANK NAME: UNITY BANK</p>
+              <p>ACCOUNT NO: 0059388128</p>
+              <p>ACCOUNT NAME: HILLSVILLE FARMS CO. LIMITED</p>
+              <p>PAYMENT METHOD: BANK TRANSFER</p>
+            </div>
+          </div>
+          <div class="right">
+            <div class="totals">
+              <p>SUBTOTAL: ₦<span id="subtotal"></span></p>
+              <p>TAX: ₦<span id="tax"></span></p>
+              <p class="grand">TOTAL: ₦<span id="total"></span></p>
+            </div>
+          </div>
+        </div>
+    
+        <hr class="divider">
+    
+        <!-- FOOTER -->
+        <div class="terms">
+          <p class="terms-title">TERMS & CONDITIONS</p>
+          <p>
+            Prices exclude WHT where applicable. Fresh agricultural produce is VAT-exempt. Goods must be inspected at delivery or
+            collection; no returns or refunds after acceptance due to perishability. Minor variations in size or quantity may occur.
+            Order cancellations after harvest may attract full charges. Governed by the laws of the Federal Republic of Nigeria.
+          </p>
+        </div>
+    
+        <div class="footer-contact">
+          <p><span class="icon-square phone"><i class="fas fa-phone"></i></span> +2349160006600</p>
+          <p><span class="icon-square email"><i class="fas fa-envelope"></i></span> info@hillsvillefarms.com</p>
+          <p><span class="icon-square address"><i class="fas fa-map-marker-alt"></i></span> Hillsvillefarms, Ilugun, 110111, Ogun State, Nigeria</p>
+        </div>
+      </div> <!-- END invoice-content -->
+    
+      <div class="footer-decorative">
+        <img src="assets/footer-shape-1.svg" alt="" class="shape shape-1">
+        <img src="assets/footer-shape-2.svg" alt="" class="shape shape-2">
+        <img src="assets/footer-shape-3.svg" alt="" class="shape shape-3">
+        <div class="shape shape-4"></div>
+      </div>
+    </div> <!-- END #invoice -->
+   
+  
+    <!-- BUTTONS moved OUTSIDE the PDF container -->
+    <div class="flex justify-center mt-6 space-x-4">
+      <button type="button" id="backToItemsBtn"
+        class="bg-gray-300 text-gray-700 font-semibold px-6 py-2 rounded-md hover:bg-gray-400 transition">
+        Back
+      </button>
+
+      <button type="button" id="downloadBtn"
+        class="bg-blue-500 text-white font-semibold px-6 py-2 rounded-md hover:bg-blue-600 transition">
+        Download PDF
+      </button>
+    </div>
+  
+  </div> <!-- END #step-preview -->
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+      <script src="script.js"></script>
+
+</body>
+
+</html>
