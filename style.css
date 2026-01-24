@@ -300,13 +300,13 @@ body {
   color: #fff;
   padding: 8px;
   text-align: left;
-  /* border-bottom: 1px solid #ccc;  optional bottom border */
+  border: none; 
 }
 
 .invoice-table td {
   padding: 8px;
-  background-color: #F1F0E9;      /* white background for body cells */
-  /* border-bottom: 1px solid #eee;   row separation */
+  background-color: #F1F0E9;    
+  border: none; 
 }
 
 .invoice-table tbody tr:nth-child(even) td,
