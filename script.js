@@ -114,7 +114,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('toPreviewBtn').addEventListener('click', function() {
     document.getElementById('clientName').textContent = document.getElementById('clientNameInput').value;
     document.getElementById('clientAddress').textContent = document.getElementById('clientAddressInput').value;
-    document.getElementById('clientPhone').textContent = document.getElementById('clientPhoneInput').value;
+    const phoneNumber = document.getElementById('clientPhoneInput').value;
+    document.getElementById('clientPhone').textContent = `Phone Number: ${phoneNumber}`;
+
 
     // UPDATE INVOICE NUMBER FROM INPUT
     const invoiceNumber = document.getElementById('invoiceNumberInput').value.trim() || '0001';
