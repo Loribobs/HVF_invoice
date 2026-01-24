@@ -6,20 +6,31 @@ function formatDate(date) {
   return `${day}/${month}/${year}`;
 }
 
+// Function to format numbers with commas
+function formatNumber(number) {
+  // Convert to string with 2 decimals, then add commas
+  return number.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 // Move updateTotals OUTSIDE of DOMContentLoaded to make it globally accessible
 function updateTotals() {
   let subtotal = 0;
   document.querySelectorAll('#itemsPreviewTable tr').forEach(row => {
-    const amount = parseFloat(row.children[4].textContent.replace('₦', '')) || 0;
+    // Get the text, remove everything except digits and decimal point
+    const amountText = row.children[4].textContent.trim();
+    // Remove ₦ symbol, commas, and any other non-numeric characters except decimal point
+    const cleanAmount = amountText.replace(/[₦,\s]/g, '');
+    const amount = parseFloat(cleanAmount) || 0;
+    console.log('Amount:', amountText, '→', amount);
     subtotal += amount;
   });
 
   const tax = parseFloat(document.getElementById('taxInput').value) || 0;
   const total = subtotal + tax;
 
-  document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-  document.getElementById('tax').textContent = tax.toFixed(2);
-  document.getElementById('total').textContent = total.toFixed(2);
+  document.getElementById('subtotal').textContent = formatNumber(subtotal);
+  document.getElementById('tax').textContent = formatNumber(tax);
+  document.getElementById('total').textContent = formatNumber(total);
 
   // Copy items to PDF preview table
   if (document.getElementById('invoiceTable')) {
@@ -80,11 +91,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const tbody = document.getElementById('itemsPreviewTable');
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td class="border px-4 py-2">${product}</td>
-      <td class="border px-4 py-2">${grade}</td>
-      <td class="border px-4 py-2">₦${unitPrice.toFixed(2)}</td>
-      <td class="border px-4 py-2">${quantity}</td>
-      <td class="border px-4 py-2">₦${amount.toFixed(2)}</td>
+    <td class="border px-4 py-2">${product}</td>
+    <td class="border px-4 py-2">${grade}</td>
+    <td class="border px-4 py-2">₦${formatNumber(unitPrice)}</td>
+    <td class="border px-4 py-2">${quantity}</td>
+    <td class="border px-4 py-2">₦${formatNumber(amount)}</td>
     `;
     tbody.appendChild(row);
     
